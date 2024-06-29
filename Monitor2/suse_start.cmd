@@ -1,0 +1,1 @@
+start "" "C:\Program Files\VMware\VMware Player\vmplayer.exe" "D:\kvk\Virtual Machines\OpenSUSE 13.1\OpenSUSE 13.1.vmx"

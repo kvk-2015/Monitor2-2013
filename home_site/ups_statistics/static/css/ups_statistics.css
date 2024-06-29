@@ -1,0 +1,55 @@
+*
+{
+    font-family: "Times New Roman", Times, serif;
+    font-size: medium;
+}
+
+div.input:hover
+{
+    color: white;
+    background: red;
+}
+
+div.output:hover
+{
+    color: white;
+    background: green;
+}
+
+p, td, body > div
+{
+    text-align: center;
+}
+
+p.missing
+{
+    width: 630px;
+    text-align: left;
+    margin: auto;
+}
+
+th
+{
+    text-align: right;
+    font-weight: normal;
+}
+
+table
+{
+    border: 1px outset gray;
+    border-spacing: 2px;
+    border-collapse: separate;
+    background: white;
+    margin: auto;
+}
+
+th, td
+{
+    border: 1px inset gray;
+    padding: 5px;
+}
+
+span.underline
+{
+    text-decoration: underline;
+}

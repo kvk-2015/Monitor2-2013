@@ -1,0 +1,130 @@
+{% extends "ups_statistics.html" %}
+
+{% block script %}
+    {% load staticfiles %}
+    <link href="{% static "css/ups_statistics.css" %}" rel="stylesheet" type="text/css">
+    <script src="{% static "RGraph/libraries/RGraph.common.core.js" %}"></script>
+    <script src="{% static "RGraph/libraries/RGraph.common.dynamic.js" %}"></script>
+    <script src="{% static "RGraph/libraries/RGraph.common.tooltips.js" %}"></script>
+    <script src="{% static "RGraph/libraries/RGraph.common.effects.js" %}"></script>
+    <script src="{% static "RGraph/libraries/RGraph.common.key.js" %}"></script>
+    <script src="{% static "RGraph/libraries/jquery.min.js" %}"></script>
+    <script src="{% static "RGraph/libraries/RGraph.line.js" %}"></script>
+    <!--[if lt IE 9]><script src="{% static "RGraph/excanvas/excanvas.js" %}"></script><![endif]-->
+    <script src="{% static "css/ups_statistics_config.js" %}"></script>
+    <script>
+        window.onload = function()
+        {
+            var input = [{{ input }}];
+            var output = [{{ output }}];
+                
+            var line = new RGraph.Line('Line', output, input);
+                
+            function tooltip(i)
+            {
+                count = (i >= output.length ? input[i-output.length] : output[i]);
+    {% if every_second %}
+                d = new Date(0, 0, 0, 0, 0, 0); d.setSeconds(count);
+                return '' + count + ' (' + (d.getHours() ? d.getHours() + ':' : '') + fill(d.getMinutes()) + ':' + fill(d.getSeconds()) + ')';
+                function fill(s){return ('0' + s).slice(-2)}
+    {% else %}
+                return '' + count;
+    {% endif %}
+            }
+                
+            RGraph.SetConfig(line, config);
+            line.Set('chart.tooltips', tooltip);
+            line.Set('chart.hmargin', {{ hmargin }});
+            line.Set('chart.numxticks', {{ labels_len }});
+            line.Set('chart.background.grid.autofit.numvlines', {{ labels_len_div_2 }});
+            line.Set('chart.text.size', {% if labels_len < 58 %}10{% else %}8{% endif %});
+            line.Set('chart.labels', [{{ labels }}]);
+            line.Draw();
+                
+            var input1 = [{{ input1 }}];
+                
+            var output1 = [{{ output1 }}];
+                
+            var labels1 = [{{ labels1|safe }}];
+                    
+            var curr_idx, tooltip_canvas = '<canvas id="__tooltip_canvas__" width="{% if every_second %}800{% else %}400{% endif %}" height="205">[No canvas support]</canvas>';
+                
+            var line1 = new RGraph.Line('Line1', output1, input1), ymin=150, ymax=270;
+                
+            RGraph.SetConfig(line1, config1);
+
+            with(Math){for(var i in output1){ymin = min(ymin, output1[i]); ymax = max(ymax, output1[i])}
+                for(i in input1)if(input1[i]){ymin = min(ymin, input1[i]); ymax = max(ymax, input1[i])}
+            }
+            line1.Set("chart.ymax", ymax);
+            line1.Set("chart.ymin", ymin);
+            line1.Set('chart.labels',[{{ labels2|safe }}]);
+            line1.Set('chart.tooltips', function (idx) {curr_idx = idx; return tooltip_canvas});
+            line1.Draw();
+                
+            RGraph.AddCustomEventListener(line1, 'ontooltip', CreateTooltipGraph);
+            function CreateTooltipGraph(obj)
+            {
+                var idx, arr, data=[], labels=[], ylabels=[], color, beg, end, DELTA = {% if every_second %}30{% else %}12{% endif %}, data_min=999, data_max=0;
+                if(curr_idx >= output1.length){
+                    color = 'red';
+                    idx = curr_idx - output1.length;
+                    arr = input1;
+                }else{
+                    color = 'green';
+                    idx = curr_idx;
+                    arr = output1;
+                }
+                beg = Math.max(0, idx - DELTA);
+                end = Math.min(labels1.length - 1, idx + DELTA);
+                for(var i=beg; i<=end; i++){
+                    voltage = arr[i];
+                    data_max = Math.max(data_max, voltage);
+                    if(voltage)data_min = Math.min(data_min, voltage);
+                    data.push(voltage); labels.push(labels1[i])
+                }
+                if(data_max==data_min){data_max++;data_min--}
+                for(i=data_max; i>=data_min; i--){ylabels.push(i)}
+                if(ylabels.length>10)
+                    document.getElementById('__tooltip_canvas__').height = 12 * ylabels.length + 85;
+                var line  = new RGraph.Line('__tooltip_canvas__', data);
+                line.Set('chart.colors', [color])
+                line.Set('chart.labels', labels);
+                line.Set('chart.ymax', data_max);
+                line.Set('chart.ymin', data_min);
+                line.Set('chart.text.angle', 90);
+                line.Set('chart.gutter.top', 15);
+                line.Set('chart.gutter.right', 5);
+                line.Set('chart.gutter.bottom', 70);
+                line.Set('chart.curvy', false);
+                line.Set('chart.hmargin', 5);
+                line.Set('chart.tickmarks', 'filledsquare');
+                line.Set('chart.numxticks', data.length);
+                line.Set('chart.ylabels.specific', ylabels);
+                line.Set('chart.numyticks', data_max - data_min);
+                line.Set('chart.background.grid.autofit.numvlines', data.length);
+                line.Set('chart.background.grid.autofit.numhlines', data_max - data_min);
+                line.Draw();
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <p>Счетчики значений напряжения на входе и выходе ИБП<br>
+    {{ date }} с {{ start_time }} по {{ end_time }}, {{ total }} записей</p>
+    <div>
+        <canvas id="Line" width="{{ canvas_width }}" height="335">[No canvas support]</canvas>
+        <br>
+        <p>График напряжения на входе и выходе ИБП за тот же период</p>
+        <canvas id="Line1" width="700" height="365">[No canvas support]</canvas>
+        <br><a href="http://www.rgraph.net" target="_blank">Javascript диаграммы для Вашего сайта с RGraph</a>
+    </div>
+    {% if missing %}
+    <br>
+    <p class="missing">
+        <span class="underline">Для измерения отсутствуют (N) предыдущих измерений{% if every_second %} (при N >= 5){% endif %}:</span><br>
+        {{ missing|join:", " }}
+    </p>
+    {% endif %}
+{% endblock %}

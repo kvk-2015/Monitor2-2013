@@ -1,0 +1,142 @@
+# This file is distributed under the same license as the Monitor2.py package.
+# FIRST AUTHOR Konstantin Kulakov <***>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Monitor2.py/1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 09:09+0600\n"
+"PO-Revision-Date: 2013-11-30 10:27+0600\n"
+"Last-Translator: Konstantin Kulakov <***>\n"
+"Language-Team: Monitor2.py/Russian-voice <***>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Monitor2.py:134
+msgid "shutdown started"
+msgstr "Компьютер будет выключен"
+
+#: Monitor2.py:136
+msgid "reboot started"
+msgstr "Компьютер будет пере-загружен"
+
+#: Monitor2.py:371
+msgid "New UPS data is not available on the SQL server!"
+msgstr ""
+"Проблемы с поступлением данных от источника бесперебойного питания на скуль "
+"сервер!"
+
+#: Monitor2.py:574
+msgid "Modem is not accessible"
+msgstr "Нет доступа к модэму"
+
+#: Monitor2.py:620
+msgid "Rebooting modem due to low line quality"
+msgstr "Выполняется перезагрузка мадэма из-за низкого качества линии"
+
+#: Monitor2.py:629
+msgid "Errors occured while trying to reboot modem"
+msgstr "Ошибка при попытке перезагрузить мадэм"
+
+#: Monitor2.py:645
+msgid "disconnected"
+msgstr "отключен"
+
+#: Monitor2.py:645
+msgid "connected"
+msgstr "подключен"
+
+#: Monitor2.py:645
+msgid "connecting"
+msgstr "подключается"
+
+#: Monitor2.py:659
+msgid "Reconnecting internet"
+msgstr "Выполняется переподключение интернета"
+
+#: Monitor2.py:689
+msgid ""
+"Internet is disconnected, reconnection was not successfull with status: "
+msgstr "Интернет отключен, подключение не удалось, статус: "
+
+#: Monitor2.py:694
+msgid "Internet is not disconnected, current status: "
+msgstr "Интернет не отключен, текущий статус: "
+
+#: Monitor2.py:698
+msgid "Internet reconnected successfully"
+msgstr "Успешное переподключение интернета"
+
+#: Monitor2.py:705
+msgid "Internet reconnection denied by script policy"
+msgstr "Переподключение интернета запрещено политикой скрипта"
+
+#: Monitor2.py:714
+msgid "An error occurred while trying to "
+msgstr "Ошибка при попытке "
+
+#: Monitor2.py:714
+msgid "reconnect internet"
+msgstr "переподключения интернета"
+
+#: Monitor2.py:714
+msgid "get status info"
+msgstr "получения статуса роутера"
+
+#: Monitor2.py:971
+msgid "virtual machine will be turned off after "
+msgstr "виртуальная машина будет выключена через "
+
+#: Monitor2.py:1111
+msgid "virtual machine is turning on"
+msgstr "выполняется запуск виртуальной машины"
+
+#: Monitor2.py:1129
+msgid "1 minute"
+msgstr "одну минуту"
+
+#: Monitor2.py:1131
+msgid "{0} minutes"
+msgstr "{0} минуты"
+
+#: Monitor2.py:1133
+msgid "{0} minutes."
+msgstr "{0} минут"
+
+#: Monitor2.py:1137
+msgid "virtual machine is turning off"
+msgstr "виртуальная машина выключается"
+
+#: Monitor2.py:1182
+msgid "Check NAS synchronization"
+msgstr "Проверь синхронизацию времени сетевого накопителя"
+
+#: Monitor2.py:1186
+msgid "NAS is not connected"
+msgstr "Сетевой накопитель не подключен"
+
+#: Monitor2.py:1309
+msgid "Planned shutdown started"
+msgstr "Началось запланированние выключение компьютера"
+
+#: Monitor2.py:1660
+msgid "Starting Winpower agent"
+msgstr "Выполняется запуск Винпауэр агента"
+
+#: Monitor2.py:1665
+msgid "Restarting script"
+msgstr "Выполняется перезапуск скрипта"
+
+#: Monitor2.py:1694
+msgid "internet is connected"
+msgstr "Интернет доступен"
+
+#: Monitor2.py:1696
+msgid "internet is not connected!"
+msgstr "Интернет не доступен!"
+
+#: Monitor2.py:1733
+msgid "DynDNS error, more information in error log"
+msgstr "Ошибка Дин Дэ эН эС, дополнительная информация в файле журнала"
