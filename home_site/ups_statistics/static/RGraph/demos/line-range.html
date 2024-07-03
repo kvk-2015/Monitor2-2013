@@ -1,0 +1,88 @@
+<html>
+<head>
+    <script src="../libraries/RGraph.common.core.js" ></script>
+    <script src="../libraries/RGraph.common.dynamic.js" ></script>
+    <script src="../libraries/RGraph.common.tooltips.js" ></script>
+    <script src="../libraries/RGraph.common.effects.js" ></script>
+    <script src="../libraries/RGraph.drawing.poly.js" ></script>
+    <script src="../libraries/RGraph.line.js" ></script>
+    <script src="../libraries/jquery.min.js" ></script>
+    
+    <title>A 'stacked' range Line chart</title>
+    
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    
+    <meta name="description" content="A range chart with the data such that the datasets appear to be stacked range sections." />
+     
+</head>
+<body>
+
+    <h1>A 'stacked' range Line chart</h1>
+    
+    <p>
+        This is an example of how you can manipulate the data that you give to a range chart so that you get a stacking
+        effect. There are actually three line charts here - one on top of the other.
+    </p>
+
+    <canvas id="cvs" width="600" height="250">[No canvas support]</canvas>
+
+
+    <script>
+        window.onload = function ()
+        {
+            var data = [[3,5,6,7,4,8,5,9,13,14,16,15,17,18,19,21,24,25,25,26,28,28,27,26,25,25]];
+            
+            for (var j=1; j<6; j+=2) {
+                data[j]   = [];
+                data[j+1] = [];
+                for (var i=0,len=data[0].length; i<len; i+=1) {
+                    data[j][i] = data[0][i] + (2 * j);
+                    data[j+1][i] = data[0][i] + (2 * j);
+                }
+            }
+
+            var line = new RGraph.Line('cvs', data[0], data[1])
+                .Set('filled', true)
+                .Set('fillstyle', 'red')
+                .Set('filled.range', true)
+                .Set('colors', ['rgba(0,0,0,0)'])
+                .Set('linewidth', 1)
+                .Set('numxticks', 8)
+                .Set('ymax', 50)
+                .Set('numxticks', 19)
+                .Set('background.grid.autofit.numvlines', 19)
+                .Draw();
+
+            var line = new RGraph.Line('cvs', data[2], data[3])
+                .Set('filled', true)
+                .Set('fillstyle', '#0c0')
+                .Set('filled.range', true)
+                .Set('colors', ['rgba(0,0,0,0)'])
+                .Set('linewidth', 1)
+                .Set('numxticks', 8)
+                .Set('numxticks', 19)
+                .Set('ymax', 50)
+                .Set('background.grid', false)
+                .Draw();
+
+            var line = new RGraph.Line('cvs', data[4], data[5])
+                .Set('filled', true)
+                .Set('fillstyle', '#66f')
+                .Set('filled.range', true)
+                .Set('colors', ['rgba(0,0,0,0)'])
+                .Set('linewidth', 1)
+                .Set('numxticks', 8)
+                .Set('ymax', 50)
+                .Set('numxticks', 19)
+                .Set('background.grid', false)
+                .Draw();
+        }
+    </script>
+
+    <p>
+        <a href="./">&laquo; Back</a>
+    </p>
+
+</body>
+</html>
+

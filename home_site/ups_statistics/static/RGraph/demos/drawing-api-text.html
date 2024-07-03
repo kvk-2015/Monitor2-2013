@@ -1,0 +1,47 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    
+    <script src="../libraries/RGraph.common.core.js" ></script>
+    <script src="../libraries/RGraph.common.dynamic.js" ></script>
+    <script src="../libraries/RGraph.common.effects.js" ></script>
+    <script src="../libraries/RGraph.drawing.text.js" ></script>
+    <script src="../libraries/RGraph.line.js" ></script>
+    <!--[if lt IE 9]><script src="../excanvas/excanvas.js"></script><![endif]-->
+    
+    <title>A basic example of the drawing API text object</title>
+
+    <meta name="description" content="A basic example of the drawing API text object" />
+     
+</head>
+<body>
+        
+    <h1>A basic example of the drawing API text object</h1>
+
+    <canvas id="cvs" width="600" height="250">[No canvas support]</canvas>
+
+    <script>
+        window.onload = function (e)
+        {
+            var line = new RGraph.Line('cvs', [4,8,6,3,5,2,6])
+                .Set('labels', ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])
+                .Draw();
+            
+            var text = new RGraph.Drawing.Text('cvs', 300,22,'A custom title using the drawing API text object')
+                .Set('font', 'Arial bold italic')
+                .Set('size', 16)
+                .Set('halign', 'center')
+                .Set('valign', 'bottom')
+                .Set('colors', ['gray'])
+                .Draw();
+        }
+    </script>
+
+
+    <p>
+        <a href="./">&laquo; Back</a>
+    </p>
+
+</body>
+</html>

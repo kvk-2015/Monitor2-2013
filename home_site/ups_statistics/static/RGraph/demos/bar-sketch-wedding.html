@@ -1,0 +1,47 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    
+    <script type="text/javascript" src="../libraries/RGraph.common.core.js" ></script>
+    <script type="text/javascript" src="../libraries/RGraph.bar.js" ></script>
+    <!--[if lt IE 9]><script src="../excanvas/excanvas.js"></script><![endif]-->
+    
+    <meta name="description" content="Another Bar chart that is using the sketch variant" />
+     
+</head>
+<body>
+
+    <div style="text-align: center; font-family: Comic sans MS; width: 800px">
+        
+        <h1>Things to release at a wedding</h1>
+    
+        <canvas id="cvs" width="800" height="250">[No canvas support]</canvas>
+    
+        <script>
+            window.onload = function ()
+            {
+                var bar = new RGraph.Bar('cvs', [50,40,10,-25,-50,50])
+                    .Set('colors', ['black'])
+                    .Set('labels.above', true)
+                    .Set('ylabels.specific', ['Very cool', '','','','','','','','','','','','','','','','','','','','', '','','','','','','','','','','','','','','','','','','','','Uncool'])
+                    .Set('gutter.left', 100)
+                    .Set('gutter.bottom', 135)
+                    .Set('variant', 'sketch')
+                    .Set('variant.sketch.verticals', false)
+                    .Set('text.font', 'Comic sans MS')
+                    .Set('text.size', 16)
+                    .Set('linewidth', 1.25)
+                    .Set('background.grid', false)
+                    .Set('labels.above.specific', ['Butterflies', 'Doves', 'Pidgeons', 'Wasps', 'Prisoners', 'The Kraken'])
+                    .Draw();
+            }
+        </script>
+    </div>
+
+    <p>
+        <a href="./">&laquo; Back</a>
+    </p>
+
+</body>
+</html>

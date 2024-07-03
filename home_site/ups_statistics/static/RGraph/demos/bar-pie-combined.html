@@ -1,0 +1,89 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    
+    <script type="text/javascript" src="../libraries/jquery.min.js" ></script>
+    <script type="text/javascript" src="../libraries/RGraph.common.core.js" ></script>
+    <script type="text/javascript" src="../libraries/RGraph.common.effects.js" ></script>
+    <script type="text/javascript" src="../libraries/RGraph.common.dynamic.js" ></script>
+    <script type="text/javascript" src="../libraries/RGraph.common.tooltips.js" ></script>
+    <script type="text/javascript" src="../libraries/RGraph.bar.js" ></script>
+    <script type="text/javascript" src="../libraries/RGraph.pie.js" ></script>
+    <!--[if lt IE 9]><script src="../excanvas/excanvas.js"></script><![endif]-->
+    
+    <title>A combined Bar and Pie chart</title>
+    <meta name="description" content="A combined Bar and Pie chart that uses gradients. " />
+    
+</head>
+<body>
+
+    <h1>A combined Bar and Pie chart</h1>
+    
+    <p>
+        This is the chart that was used on the front page (as of 13th December 2013)    
+    </p>
+
+
+    <canvas id="cvs" width="450" height="200">[No canvas support]</canvas>
+
+    <script>
+        window.onload = function ()
+        {
+            var bar = new RGraph.Bar('cvs', [[50,60,52],[65,30,50],[40,80,70],[115,100,92]])
+                .Set('gutter.top', 15)
+                .Set('gutter.left', 35)
+                .Set('gutter.right', 15)
+                .Set('background.grid.vlines', false)
+                .Set('background.grid.border', false)
+                .Set('colors', ['Gradient(white:#f11:#f11)', 'Gradient(white:#1cc:#1cc)', 'Gradient(white:#00f:#00f)'])
+                .Set('tooltips.event', 'mousemove')
+                .Set('tooltips', [
+                                  'Bob on Monday: 50 sales', 'Bob on Tuesday: 60 sales', 'Bob on Wednesday: 112 sales',
+                                  'Jamie on Monday: 65 sales', 'Jamie on Tuesday: 30 sales', 'Jamie on Wednesday: 50 sales',
+                                  'Cynthia on Monday: 40 sales', 'Cynthia on Tuesday: 80 sales', 'Cynthia on Wednesday: 70 sales',
+                                  'Peter on Monday: 115 sales', 'Peter on Tuesday: 100 sales', 'Peter on Wednesday: 92 sales'
+                                 ])
+                .Set('labels', ['Bob', 'Jamie', 'Cynthia', 'Peter'])
+                .Set('highlight.stroke', 'rgba(0,0,0,0.1)')
+                .Set('strokestyle', 'rgba(0,0,0,0)')
+                .Set('shadow', true)
+                .Set('shadow.offsetx', -2)
+                .Set('shadow.offsety', -2)
+                .Set('shadow.blur', 15)
+                .Set('ymax', 150)
+                .Set('noyaxis', true)
+                .Set('ylabels', false)
+                .Set('labels.above', true)
+                .Set('linewidth', 2)
+                .Set('hmargin', 15)
+                .Draw();
+
+
+
+            var pie = new RGraph.Pie('cvs', [270,270,164])
+                .Set('exploded', [7,2,2])
+                .Set('labels.sticks', [true])
+                .Set('labels.sticks.color', 'black')
+                .Set('labels', ['Mondays sales'])
+                .Set('centerx', 60)
+                .Set('centery', 45)
+                .Set('radius', 30)
+                .Set('shadow', true)
+                .Set('shadow.blur', 5)
+                .Set('shadow.offsetx', 2)
+                .Set('shadow.offsetY', 2)
+                .Set('shadow.color', '#aaa')
+                .Set('colors', ['Gradient(white:#c11:#c11:#c11)', 'Gradient(white:#1cc:#1cc:#1cc)', 'Gradient(white:#11c:#11c:#11c)'])
+                .Set('tooltips', ['Total Monday sales: 270', 'Total Tuesday sales: 270', 'Total Wednesday sales: 264'])
+                .Set('tooltips.event', 'onmousemove')
+            ISOLD ? pie.Draw() : RGraph.Effects.jQuery.Expand(pie, {'bounce': false});
+        }
+    </script>
+
+    <p>
+        <a href="./">&laquo; Back</a>
+    </p>
+
+</body>
+</html>

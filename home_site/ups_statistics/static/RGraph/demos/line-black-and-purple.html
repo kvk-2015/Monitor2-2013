@@ -1,0 +1,72 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    
+    <script src="../libraries/RGraph.common.core.js" ></script>
+    <script src="../libraries/RGraph.bar.js" ></script>
+    <script src="../libraries/RGraph.line.js" ></script>
+    <!--[if lt IE 9]><script src="../excanvas/excanvas.js"></script><![endif]-->
+    
+    <title>A combined Bar and Line chart</title>
+    
+    <meta name="description" content="A combined Bar and Line chart" />
+     
+</head>
+<body>
+
+    <h1>A combined Bar and Line chart</h1>
+
+    <canvas id="cvs" width="600" height="250" style="background-color: #555; border: 5px solid #000; border-radius: 7px; box-shadow: 2px 2px 3px gray">[No canvas support]</canvas>
+    
+    <script>
+        window.onload = function ()
+        {
+            var bar = new RGraph.Bar("cvs", [81,90,75,85,90,78])
+              .Set('ymax', 100)
+              .Set('background.grid.vlines', false)
+              .Set('background.grid.autofit.numhlines', 6)
+              .Set('background.grid.border', false)
+              .Set('background.grid.color', '#999')
+              .Set('numyticks', 12)
+              .Set('labels', ['1','2','3','4','5','6'])
+              .Set('hmargin', 30)
+              .Set('ylabels.count', 6)
+              .Set('gutter.left', 30)
+              .Set('colors', ['#A18AC5'])
+              .Set('text.color', '#ccc')
+              .Set('axis.color', '#999')
+              .Set('numyticks', 0)
+              .Set('numxticks', 0)
+              .Set('shadow', true)
+              .Set('shadow.color', 'black')
+              .Set('shadow.offsetx', 0)
+              .Set('shadow.offsety', 0)
+              .Set('shadow.blur', 15)
+              .Set('gutter.right', 30)
+              .Draw();
+
+            var line = new RGraph.Line('cvs', [150,73,160,350,490,250])
+              .Set('ymax', 600)
+              .Set('noxaxis', true)
+              .Set('background.grid', false)
+              .Set('shadow', true)
+              .Set('linewidth', 7)
+              .Set('colors', ['#d00'])
+              .Set('hmargin', 45.42)
+              .Set('yaxispos', 'right')
+              .Set('axis.color', '#999')
+              .Set('text.color', '#ccc')
+              .Set('gutter.right', 30)
+              .Set('ylabels.count', 6)
+              .Set('numyticks', 0)
+              .Draw();
+        }
+    </script>
+
+    <p>
+        <a href="./">&laquo; Back</a>
+    </p>
+
+</body>
+</html>
