@@ -1,0 +1,13 @@
+[Unit]
+Description=Monitor_linux_user script
+
+[Service]
+User=user
+ExecStart=/usr/bin/python /home/user/scripts/Monitor_linux_user/Monitor_linux_user.py
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target 
+
+

@@ -1,0 +1,10 @@
+[Unit]
+Description=Monitor_linux_root script
+
+[Service]
+ExecStart=/usr/bin/python /root/scripts/Monitor_linux_root/Monitor_linux_root.py
+
+[Install]
+WantedBy=multi-user.target 
+
+
