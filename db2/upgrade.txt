@@ -1,0 +1,3 @@
+db2iupgrade DB2 /u:db2admin,password
+db2updv105 -d site
+db2 upgrade db site

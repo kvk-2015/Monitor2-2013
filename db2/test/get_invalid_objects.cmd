@@ -1,0 +1,1 @@
+db2 SELECT substr(objectschema,1,20) objectschema, substr(objectname,1,30) objectname, routinename, objecttype FROM syscat.invalidobjects

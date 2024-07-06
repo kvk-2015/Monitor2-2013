@@ -1,0 +1,1 @@
+db2 call sysproc.automaint_get_policyfile( 'AUTO_RUNSTATS', 'AUTO_RUNSTATS.xml' )

@@ -1,0 +1,1 @@
+db2 ACTIVATE DB site

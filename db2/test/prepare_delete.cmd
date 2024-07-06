@@ -1,0 +1,2 @@
+db2 -x "select 'drop alias',substr(rtrim(tabschema)||'.'||rtrim(tabname),1,50),';'from syscat.tables where type = 'A' and tabschema = 'DB2ADMIN'" > delete.out
+db2 -x "select 'drop table',substr(rtrim(tabschema)||'.'||rtrim(tabname),1,50),';'from syscat.tables where type = 'T' and tabschema = 'DB2ADMIN'" >> delete.out

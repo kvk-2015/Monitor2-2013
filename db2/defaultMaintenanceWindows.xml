@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<DB2MaintenanceWindows 
+xmlns="http://www.ibm.com/xmlns/prod/db2/autonomic/config" >
+
+ <!-- Online Maintenance Window  -->
+ <OnlineWindow Occurrence="During" startTime="00:00:00" duration="24" >
+  <DaysOfWeek>All</DaysOfWeek>
+  <DaysOfMonth>All</DaysOfMonth>
+  <MonthsOfYear>All</MonthsOfYear>
+ </OnlineWindow>
+</DB2MaintenanceWindows> 

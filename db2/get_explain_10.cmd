@@ -1,0 +1,1 @@
+db2 select "EXPLAIN_TIME, TOTAL_COST, SOURCE_NAME, SOURCE_SCHEMA from db2admin.EXPLAIN_STATEMENT order by TOTAL_COST DESC fetch first 10 rows only

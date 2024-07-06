@@ -1,0 +1,1 @@
+db2 -x "select 'reorgchk update statistics on table',substr(rtrim(tabschema)||'.'||rtrim(tabname),1,50),';' from syscat.tables where type = 'T' " > reorgchk.out

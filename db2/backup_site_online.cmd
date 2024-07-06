@@ -1,0 +1,1 @@
+db2 BACKUP DATABASE site ONLINE TO "K:\backup.db2\site" COMPRESS >> "K:\backup.db2\site\backup.log"

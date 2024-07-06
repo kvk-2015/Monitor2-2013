@@ -1,0 +1,1 @@
+db2 select varchar(tbsp_name, 30) as tbsp_name, varchar(tbsp_state, 40) as tbsp_state from table(mon_get_tablespace('',-2)) as t 

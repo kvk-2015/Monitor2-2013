@@ -1,0 +1,1 @@
+for %%i in (*.001) do db2ckbkp %%i >> ckbkp_all.log

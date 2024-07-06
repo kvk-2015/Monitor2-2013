@@ -1,0 +1,1 @@
+db2 call monreport.dbsummary(30)

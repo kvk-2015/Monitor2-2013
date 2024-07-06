@@ -1,0 +1,1 @@
+db2 CALL GET_DBSIZE_INFO(?, ?, ?, 0)

@@ -1,0 +1,10 @@
+[Unit]
+Description=DB2 Fault Monitor Coordinator
+After=getty.target
+
+[Service]
+ExecStart=/opt/ibm/db2/V10.1/bin/db2fmcd
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
