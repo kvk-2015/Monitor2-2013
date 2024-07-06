@@ -28,8 +28,8 @@ with(oExec.StdIn){
 with(fso.CreateTextFile(WScript.ScriptFullName.replace(/\.js/i, ".txt"), true)){
     while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
         currentLine = oExec.StdOut.ReadLine();
-        if(!/^db2|>db2|^with|^SQL0204N|^drop|^declare|^insert|^является|^было|ID авторизации|>@echo|^00\.|exit|записей выбрано.|^\s*$/i.test(currentLine))WriteLine(currentLine);
-        if(/записей выбрано./.test(currentLine))WriteLine();
+        if(!/^db2|>db2|^with|^SQL0204N|^drop|^declare|^insert|^СЏРІР»СЏРµС‚СЃСЏ|^Р±С‹Р»Рѕ|ID Р°РІС‚РѕСЂРёР·Р°С†РёРё|>@echo|^00\.|exit|Р·Р°РїРёСЃРµР№ РІС‹Р±СЂР°РЅРѕ.|^\s*$/i.test(currentLine))WriteLine(currentLine);
+        if(/Р·Р°РїРёСЃРµР№ РІС‹Р±СЂР°РЅРѕ./.test(currentLine))WriteLine();
     }
 }
 
