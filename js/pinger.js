@@ -1,4 +1,4 @@
-var fso=new ActiveXObject("Scripting.FileSystemObject"),Args=WScript.Arguments,S=WScript.CreateObject("WScript.Shell"),sArgs="",cto=0,cun=0,str;
+var fso=new ActiveXObject("Scripting.FileSystemObject"),Args=WScript.Arguments,S=WScript.CreateObject("WScript.Shell"),sArgs="",cto=0,cun=0,gen=0,str;
 with(str=new ActiveXObject("ADODB.Stream")){Type=2;Mode=3}
 for(var i=0;i<Args.length;i++)sArgs+=" "+Args.item(i);
 if(fso.GetFileName(WScript.FullName).toLowerCase()=="wscript.exe"){
