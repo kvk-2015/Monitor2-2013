@@ -19,5 +19,5 @@ DB2BP_System_Performance_0813.pdf, which is included too)...
 Included threaded Logger class, that allows to find out the time of the last activity of the script (it writes to the end of log file every minute).
 
 JScript (WSH) toc generator for video files (lengths through GetDetailsOf or ffprobe.exe summed up) with very compact RegExp word wrap functon.
-Some useful wrapper for the standard ping command has been included.
 A customized console ping monitor that checks the connection every 30 seconds and, if necessary, uses protocol address resolution.
+Some useful wrapper for the standard ping command has been included.
