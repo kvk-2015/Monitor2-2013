@@ -2,7 +2,7 @@ var fso=new ActiveXObject("Scripting.FileSystemObject"),Args=WScript.Arguments,S
 with(str=new ActiveXObject("ADODB.Stream")){Type=2;Mode=3}
 for(var i=0;i<Args.length;i++)sArgs+=" "+Args.item(i);
 if(fso.GetFileName(WScript.FullName).toLowerCase()=="wscript.exe"){
-	S.Run("cmd /k cscript "+WScript.ScriptName+" "+sArgs,1);
+    S.Run("cmd /k cscript "+WScript.ScriptName+" "+sArgs,1);
 }else{	var s,oExec=S.Exec("ping "+sArgs);
     while(!oExec.Status){s=DosToWin(oExec.StdOut.ReadLine());
         if(/timed out|Превышен интервал/.test(s))cto++;else cto=0;
