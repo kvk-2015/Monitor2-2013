@@ -15,3 +15,7 @@ Video processing (Windows WSH scripts) folders now...
 Some scripts used with IBM DB2 Express-C 10.5fp4 as Dgango supported database that time are stored in db2 folder now
 (as for perfomance tuning, all scripts except performance.cmd and db2CollectPerfomanceData.js are from the book
 DB2BP_System_Performance_0813.pdf, which is included too)...
+
+Included threaded Logger class, that allows to find out the time of the last activity of the script (it writes to the end of log file every minute).
+
+JScript (WSH) toc generator for video files (lengths through GetDetailsOf or ffprobe.exe summed up) with very compact RegExp word wrap functon.
