@@ -1,5 +1,5 @@
 var str, WshShell = new ActiveXObject("WScript.Shell");
-var isArial = false, textAreaLength = (isArial ? 58: 157), headLength = 11; // isArial - нужно ли печатать на принтере крупно или только смотреть в Far Manager
+var isArial = false, textAreaLength = (isArial ? 57: 157), headLength = 11; // isArial - нужно ли печатать на принтере крупно или только смотреть в Far Manager
 var ffProbe = WshShell.ExpandEnvironmentStrings("%FFmpegPath%") + "ffprobe.exe"; tailLength = textAreaLength - headLength;
 var re = new RegExp("\\s*(.{0," + (tailLength - 1) +"}\\S)(?=\\s+|$)","g");
 var fso = new ActiveXObject("Scripting.FileSystemObject"), shellApp = new ActiveXObject("Shell.Application"), header;
