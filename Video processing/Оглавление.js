@@ -4,7 +4,7 @@ var ffProbe = WshShell.ExpandEnvironmentStrings("%FFmpegPath%") + "ffprobe.exe";
 var re = new RegExp("\\s*(.{0," + (tailLength - MINIMAL_WORD_LENGTH_AT_END_OF_LINE) + "}\\S{" + MINIMAL_WORD_LENGTH_AT_END_OF_LINE + "})(?=\\s+|$)","g");
 var fso = new ActiveXObject("Scripting.FileSystemObject"), shellApp = new ActiveXObject("Shell.Application"), header;
 var s, sum, Arg, Args, startFolders = [], dd = (new Array(isArial ? 91 : textAreaLength + 1)).join("-"), fsp = (new Array(isArial ? 16 : headLength - 1)).join(" ");
-var CodePages = [];
+var CodePages = [], CodePagesTestsDone = false;
 
 with(str = new ActiveXObject("ADODB.Stream")){Type = 2; Mode = 3;}
 
@@ -71,10 +71,11 @@ function DosToWin(dosString){
         return new_codepage;
     }
     var result;
-    if(!CodePages.length){
+    if(!CodePagesTestsDone){
         var oExec = WshShell.Exec('cmd.exe /c chcp');   DOS_codepage = getCodepage();
         oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP'); Windows_codepage = getCodepage();
         if(DOS_codepage != Windows_codepage)CodePages = ["cp" + DOS_codepage, "Windows-" + Windows_codepage];
+        CodePagesTestsDone = true;
     }
     if(!CodePages.length)return dosString;
     with(str){
