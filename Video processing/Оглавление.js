@@ -1,9 +1,10 @@
 var str, WshShell = new ActiveXObject("WScript.Shell");
 var isArial = false, textAreaLength = (isArial ? 57: 157), headLength = 11; // isArial - нужно ли печатать на принтере крупно или только смотреть в Far Manager
-var ffProbe = WshShell.ExpandEnvironmentStrings("%FFmpegPath%") + "ffprobe.exe"; tailLength = textAreaLength - headLength;
-var re = new RegExp("\\s*(.{0," + (tailLength - 3) +"}\\S{3})(?=\\s+|$)","g");
+var ffProbe = WshShell.ExpandEnvironmentStrings("%FFmpegPath%") + "ffprobe.exe"; tailLength = textAreaLength - headLength; MINIMAL_WORD_LENGTH_AT_END_OF_LINE = 3;
+var re = new RegExp("\\s*(.{0," + (tailLength - MINIMAL_WORD_LENGTH_AT_END_OF_LINE) + "}\\S{" + MINIMAL_WORD_LENGTH_AT_END_OF_LINE + "})(?=\\s+|$)","g");
 var fso = new ActiveXObject("Scripting.FileSystemObject"), shellApp = new ActiveXObject("Shell.Application"), header;
 var s, sum, Arg, Args, startFolders = [], dd = (new Array(isArial ? 91 : textAreaLength + 1)).join("-"), fsp = (new Array(isArial ? 16 : headLength - 1)).join(" ");
+var CodePages = [];
 
 with(str = new ActiveXObject("ADODB.Stream")){Type = 2; Mode = 3;}
 
@@ -64,12 +65,24 @@ function ffget(fname){
 
 function DosToWin(dosString){
     var result;
+    if(!CodePages.length){
+        var oExec = WshShell.Exec('cmd.exe /c chcp');
+        while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
+            DOS_codepage = oExec.StdOut.ReadAll().replace(/^[\s\S]*\s(\d+)\s*$/, "$1");
+        }
+        var oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP');
+        while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
+            Windows_codepage = oExec.StdOut.ReadAll().replace(/^[\s\S]*\s(\d+)\s*$/, "$1");
+        }
+        if(DOS_codepage != Windows_codepage)CodePages = ["cp" + DOS_codepage, "Windows-" + Windows_codepage];
+    }
+    if(!CodePages.length)return dosString;
     with(str){
         Open();
-        Charset = "Windows-1251";
+        Charset = CodePages[1];
         WriteText(dosString);
         Position = 0;
-        Charset = "cp866";
+        Charset = CodePages[0];
         result = ReadText();
         Close();
     }
