@@ -56,7 +56,7 @@ function normTime(len){
 }
 
 function ffget(fname){
-    oExec = WshShell.Exec(ffProbe + ' -show_format -pretty "' + fname + '"');
+    var oExec = WshShell.Exec(ffProbe + ' -show_format -pretty "' + fname + '"');
     while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
         if(/duration=(\d{1,2}):(\d{2}):(\d{2})/.test(DosToWin(oExec.StdOut.ReadLine())))return true;
     }
@@ -64,16 +64,16 @@ function ffget(fname){
 }
 
 function DosToWin(dosString){
+    function getCodepage(){
+        while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
+            var new_codepage = oExec.StdOut.ReadAll().replace(/^[\s\S]*\s(\d+)\s*$/, "$1");
+        }
+        return new_codepage;
+    }
     var result;
     if(!CodePages.length){
-        var oExec = WshShell.Exec('cmd.exe /c chcp');
-        while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
-            DOS_codepage = oExec.StdOut.ReadAll().replace(/^[\s\S]*\s(\d+)\s*$/, "$1");
-        }
-        var oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP');
-        while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
-            Windows_codepage = oExec.StdOut.ReadAll().replace(/^[\s\S]*\s(\d+)\s*$/, "$1");
-        }
+        var oExec = WshShell.Exec('cmd.exe /c chcp');   DOS_codepage = getCodepage();
+        oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP'); Windows_codepage = getCodepage();
         if(DOS_codepage != Windows_codepage)CodePages = ["cp" + DOS_codepage, "Windows-" + Windows_codepage];
     }
     if(!CodePages.length)return dosString;
