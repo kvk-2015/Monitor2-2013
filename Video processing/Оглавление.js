@@ -66,15 +66,19 @@ function ffget(fname){
 function DosToWin(dosString){
     function getCodepage(){
         while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
-            var new_codepage = oExec.StdOut.ReadAll().replace(/^[\s\S]*\s(\d+)\s*$/, "$1");
+            var new_codepage = /^[\s\S]*(?:REG_SZ|:)\s+(\S+)\s*$/.test(oExec.StdOut.ReadAll()) ? RegExp.$1 : "";
         }
         return new_codepage;
     }
-    var result;
+    var result, codepage, WebCharset;
     if(!CodePagesTestsDone){
-        var oExec = WshShell.Exec('cmd.exe /c chcp');   DOS_codepage = getCodepage();
-        oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP'); Windows_codepage = getCodepage();
-        if(DOS_codepage != Windows_codepage)CodePages = ["cp" + DOS_codepage, "Windows-" + Windows_codepage];
+        var oExec = WshShell.Exec('cmd.exe /c chcp');
+        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + (codepage = getCodepage()) + '" -v BodyCharset'); DOS_codepage = getCodepage();
+        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + codepage + '" -v WebCharset'); DOS_codepage = (WebCharset = getCodepage()) ? WebCharset : DOS_codepage;
+        oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP');
+        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + (codepage = getCodepage()) + '" -v BodyCharset'); Windows_codepage = getCodepage();
+        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + codepage + '" -v WebCharset'); Windows_codepage = (WebCharset = getCodepage()) ? WebCharset : Windows_codepage;
+        if(DOS_codepage != Windows_codepage)CodePages = [DOS_codepage, Windows_codepage];
         CodePagesTestsDone = true;
     }
     if(!CodePages.length)return dosString;
