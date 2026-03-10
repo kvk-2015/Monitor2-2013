@@ -70,14 +70,15 @@ function DosToWin(dosString){
         }
         return new_codepage;
     }
-    var result, codepage, WebCharset;
+    function getCodepageName(){
+        var commandHead = 'reg.exe query "HKCR\\MIME\\Database\\Codepage\\', codepage, WebCharset;
+        oExec = WshShell.Exec(commandHead + (codepage = getCodepage()) + '" -v BodyCharset'); var tempCodepageName = getCodepage();
+        oExec = WshShell.Exec(commandHead + codepage + '" -v WebCharset'); return (WebCharset = getCodepage()) ? WebCharset : tempCodepageName;
+    }
+    var result;
     if(!CodePagesTestsDone){
-        var oExec = WshShell.Exec('cmd.exe /c chcp');
-        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + (codepage = getCodepage()) + '" -v BodyCharset'); DOS_codepage = getCodepage();
-        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + codepage + '" -v WebCharset'); DOS_codepage = (WebCharset = getCodepage()) ? WebCharset : DOS_codepage;
-        oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP');
-        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + (codepage = getCodepage()) + '" -v BodyCharset'); Windows_codepage = getCodepage();
-        oExec = WshShell.Exec('reg.exe query "HKCR\\MIME\\Database\\Codepage\\' + codepage + '" -v WebCharset'); Windows_codepage = (WebCharset = getCodepage()) ? WebCharset : Windows_codepage;
+        var oExec = WshShell.Exec('cmd.exe /c chcp');   var DOS_codepage = getCodepageName();
+        oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP');    var Windows_codepage = getCodepageName();
         if(DOS_codepage != Windows_codepage)CodePages = [DOS_codepage, Windows_codepage];
         CodePagesTestsDone = true;
     }
