@@ -87,7 +87,7 @@ function DosToWin(dosString){
     if(!CodePagesTestsDone){
         var oExec = WshShell.Exec('cmd.exe /c chcp');   var DOS_codepage = getCodepageName();
         oExec = WshShell.Exec('reg.exe query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage" -v ACP');    var Windows_codepage = getCodepageName();
-        if(DOS_codepage != Windows_codepage)CodePages = [DOS_codepage, Windows_codepage];
+        if(DOS_codepage != Windows_codepage)CodePages = ["utf-8" || DOS_codepage, Windows_codepage]; // Скрипт писался очень давно, теперь данные приходят в utf-8, оставил для исключения проблем совместимости и другого применения...
         CodePagesTestsDone = true;
     }
     if(!CodePages.length)return dosString;
