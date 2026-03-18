@@ -4,23 +4,29 @@ var FFmpegPath = "%FFmpegPath%", ffProbe = (WshShell.ExpandEnvironmentStrings(FF
 var tailLength = textAreaLength - headLength, MINIMAL_WORD_LENGTH_AT_END_OF_LINE = 3;
 var re = new RegExp("\\s*(.{0," + (tailLength - MINIMAL_WORD_LENGTH_AT_END_OF_LINE) + "}\\S{" + MINIMAL_WORD_LENGTH_AT_END_OF_LINE + "})(?=\\s+|$)","g");
 var fso = new ActiveXObject("Scripting.FileSystemObject"), shellApp = new ActiveXObject("Shell.Application"), header;
-var s, sum, Arg, Args, startFolders = [], dd = (new Array(isArial ? 91 : textAreaLength + 1)).join("-"), fsp = (new Array(isArial ? 16 : headLength - 1)).join(" ");
-var CodePages = [], CodePagesTestsDone = false;
+var s, sum, Arg, Args, sArgs = "", startFolders = [], dd = (new Array(isArial ? 91 : textAreaLength + 1)).join("-"), fsp = (new Array(isArial ? 16 : headLength - 1)).join(" ");
+var CodePages = [], CodePagesTestsDone = false, folderName;
 
 with(str = new ActiveXObject("ADODB.Stream")){Type = 2; Mode = 3;}
+
+for(var i=0;i<(Args=WSH.Arguments).length;i++)sArgs += ' "' + Args.item(i) + '"';
+if(fso.GetFileName(WScript.FullName).toLowerCase()=="wscript.exe"){WshShell.Run("cscript " + WSH.ScriptName + " " + sArgs, 1); WSH.Quit()}
 
 if(ArgsCount=(Args=WSH.Arguments.Unnamed).Count){
     for(var i=0;i<ArgsCount;i++)if(fso.FolderExists(Args(i)))startFolders.push(fso.GetAbsolutePathName(Args(i)))
 }else startFolders = [fso.GetParentFolderName(WSH.ScriptFullName)];
 
 for(var curFolder=0;curFolder<startFolders.length;curFolder++){s = "" ; sum = [0,0,0];
-    getInfo(folder=startFolders[curFolder]); normTime(sum); header = "Оглавление " + fso.GetFileName(folder);
+    WSH.echo("Старт обработки (следующей) папки...");
+    getInfo(folder=startFolders[curFolder]); normTime(sum); header = "Оглавление " + (folderName = fso.GetFileName(folder));
+    WSH.echo("Обработана папка: " + fso.GetAbsolutePathName(folderName) + "...");
     with(fso.CreateTextFile(fso.BuildPath(folder, header + ".txt"), true, true)){
             Write((isArial ? ">>>Arial 16<<<\r\n" : "") + header + " (" + sum.join(":")+ "):" + (s.substr(2,1) == "-" ? "" : "\r\n" + dd) + s);
             Close();
     }
 }
-
+WSH.echo("Обработка завершена...");
+WSH.Sleep(2000);
 
 function getInfo(folder){
     var sf = new Enumerator(fso.GetFolder(folder).subFolders), list = [], duration = new Array(3);
@@ -37,6 +43,7 @@ function getInfo(folder){
         if(/^(?:avi|mp4|mkv|ts|mov)$/i.test(fso.GetExtensionName(fn=list[j])))
         if(/(\d{1,2}):(\d{2}):(\d{2})/.test(sFolder.GetDetailsOf(objItem=sFolder.ParseName(fn), 27)) ||
             /(?:Длина|Продолжительность):\s(\d{1,2}):(\d{2}):(\d{2})/.test(sFolder.GetDetailsOf(objItem, -1)) || ffget(fso.BuildPath(folder, fn))){
+            WSH.echo("Обрабатывается: " + fn + "...");
             cs += "\r\n" + ("0" + (duration[0] = RegExp.$1)).slice(-2) + ":" + (duration[1] = RegExp.$2) + ":" + (duration[2] = RegExp.$3) + " | " +
                   splitStrings(fn, true);
             if(!/\.!|^!/.test(fn))for(var i=0;i<3;i++)len[i] += parseInt(duration[i], 10);
