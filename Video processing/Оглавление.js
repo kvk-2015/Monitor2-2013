@@ -5,7 +5,7 @@ var tailLength = textAreaLength - headLength, MINIMAL_WORD_LENGTH_AT_END_OF_LINE
 var re = new RegExp("\\s*(.{0," + (tailLength - MINIMAL_WORD_LENGTH_AT_END_OF_LINE) + "}\\S{" + MINIMAL_WORD_LENGTH_AT_END_OF_LINE + "})(?=\\s+|$)","g");
 var fso = new ActiveXObject("Scripting.FileSystemObject"), shellApp = new ActiveXObject("Shell.Application"), header;
 var s, sum, Arg, Args, sArgs = "", startFolders = [], dd = (new Array(isArial ? 91 : textAreaLength + 1)).join("-"), fsp = (new Array(isArial ? 16 : headLength - 1)).join(" ");
-var CodePages = [], CodePagesTestsDone = false, folderName;
+var CodePages = [], CodePagesTestsDone = false, folderCount = 0;
 
 with(str = new ActiveXObject("ADODB.Stream")){Type = 2; Mode = 3;}
 
@@ -17,9 +17,9 @@ if(ArgsCount=(Args=WSH.Arguments.Unnamed).Count){
 }else startFolders = [fso.GetParentFolderName(WSH.ScriptFullName)];
 
 for(var curFolder=0;curFolder<startFolders.length;curFolder++){s = "" ; sum = [0,0,0];
-    WSH.echo("Старт обработки (следующей) папки...");
-    getInfo(folder=startFolders[curFolder]); normTime(sum); header = "Оглавление " + (folderName = fso.GetFileName(folder));
-    WSH.echo("Обработана папка: " + fso.GetAbsolutePathName(folderName) + "...");
+    WSH.echo("Старт обработки" + (folderCount++ ? " следующей" : "") + " папки...");
+    getInfo(folder=startFolders[curFolder]); normTime(sum); header = "Оглавление " + fso.GetFileName(folder);
+    WSH.echo("Обработана папка: " + fso.GetAbsolutePathName(folder) + "...");
     with(fso.CreateTextFile(fso.BuildPath(folder, header + ".txt"), true, true)){
             Write((isArial ? ">>>Arial 16<<<\r\n" : "") + header + " (" + sum.join(":")+ "):" + (s.substr(2,1) == "-" ? "" : "\r\n" + dd) + s);
             Close();
