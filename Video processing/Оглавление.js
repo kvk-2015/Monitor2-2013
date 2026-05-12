@@ -46,7 +46,7 @@ function getInfo(folder){
             /(?:Длина|Продолжительность):\s(\d{1,2}):(\d{2}):(\d{2})/.test(sFolder.GetDetailsOf(objItem, -1)) || ffget(fso.BuildPath(folder, fn))){
             WSH.echo("Обрабатывается: " + fn + "...");
             cs += "\r\n" + ("0" + (duration[0] = RegExp.$1)).slice(-2) + ":" + (duration[1] = RegExp.$2) + ":" + (duration[2] = RegExp.$3) + " | " +
-                  splitStrings(decodeURIComponent(fn.replace(re_part, "$1%C2%A0$2")), true);
+                  splitStrings(decodeURIComponent(fn.replace(/%/g, "%25").replace(re_part, "$1%C2%A0$2")), true);
             if(!/\.!|^!/.test(fn))for(var i=0;i<3;i++)len[i] += parseInt(duration[i], 10);
         }
     for(i=0;i<3;i++)sum[i] += len[i]; normTime(len); cf = folder.slice(startFolders[curFolder].length).replace(/^\\/,"");
