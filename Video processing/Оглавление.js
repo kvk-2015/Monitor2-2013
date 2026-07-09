@@ -66,7 +66,7 @@ function normTime(len){
 
 function ffget(fname){
     var oExec = WshShell.Exec(ffProbe + ' -show_format -pretty "' + fname + '"');
-    while(!oExec.Status || !oExec.StdOut.AtEndOfStream){
+    while(!oExec.Status || !oExec.StdOut.AtEndOfStream || !oExec.StdErr.AtEndOfStream){oExec.StdErr.ReadAll();
         if(/duration=(\d{1,2}):(\d{2}):(\d{2})/.test(DosToWin(oExec.StdOut.ReadLine())))return true;
     }
     return false;
