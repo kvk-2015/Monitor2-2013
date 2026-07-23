@@ -30,7 +30,7 @@ WSH.echo("Обработка завершена...");
 WSH.Sleep(2000);
 
 function getInfo(folder){
-    var sf = new Enumerator(fso.GetFolder(folder).subFolders), list = [], duration = new Array(3);
+    var sf = new Enumerator(fso.GetFolder(folder).subFolders), list = [], duration = new Array(3), md;
     for(;!sf.atEnd();sf.moveNext())list.push(sf.item().Name);
     list.sort();
     for(var i=0;i<list.length;i++)
@@ -42,8 +42,8 @@ function getInfo(folder){
     list.sort();
     for(var j=0;j<list.length;j++)
         if(/^(?:avi|mp4|mkv|ts|mov)$/i.test(fso.GetExtensionName(fn=list[j])))
-        if(/(\d{1,2}):(\d{2}):(\d{2})/.test(sFolder.GetDetailsOf(objItem=sFolder.ParseName(fn), 27)) ||
-            /(?:Длина|Продолжительность):\s(\d{1,2}):(\d{2}):(\d{2})/.test(sFolder.GetDetailsOf(objItem, -1)) || ffget(fso.BuildPath(folder, fn))){
+        if(((md=!/\s\[\+.*\.mkv$/.test(fn)) && /(\d{1,2}):(\d{2}):(\d{2})/.test(sFolder.GetDetailsOf(objItem=sFolder.ParseName(fn), 27))) ||
+            (md && /(?:Длина|Продолжительность):\s(\d{1,2}):(\d{2}):(\d{2})/.test(sFolder.GetDetailsOf(objItem, -1))) || ffget(fso.BuildPath(folder, fn), md)){
             WSH.echo("Обрабатывается: " + fn + "...");
             cs += "\r\n" + ("0" + (duration[0] = RegExp.$1)).slice(-2) + ":" + (duration[1] = RegExp.$2) + ":" + (duration[2] = RegExp.$3) + " | " +
                   splitStrings(fn.replace(re_part, re_part_replace), true);
@@ -64,10 +64,10 @@ function normTime(len){
     for(var i=2;i;i--){if(len[i]>=60){len[i-1] += Math.floor(len[i]/60); len[i] %= 60} len[i] = ("0" + len[i]).slice(-2)}
 }
 
-function ffget(fname){
+function ffget(fname, md){var re = new RegExp("duration" + (md ? "" : "_string" ) + "=(\\d{1,2}):(\\d{2}):(\\d{2})", "i");
     var oExec = WshShell.Exec(ffProbe + ' -show_format -pretty "' + fname + '"');
     while(!oExec.Status || !oExec.StdOut.AtEndOfStream || !oExec.StdErr.AtEndOfStream){oExec.StdErr.ReadAll();
-        if(/duration=(\d{1,2}):(\d{2}):(\d{2})/.test(DosToWin(oExec.StdOut.ReadLine())))return true;
+        if(re.test(DosToWin(oExec.StdOut.ReadLine())))return true;
     }
     return false;
 }
