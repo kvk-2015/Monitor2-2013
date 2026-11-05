@@ -19,7 +19,10 @@ if(ArgsCount=(Args=WSH.Arguments.Unnamed).Count){
 
 for(var curFolder=0;curFolder<startFolders.length;curFolder++){s = "" ; sum = [0,0,0];
     WSH.echo("Старт обработки" + (folderCount++ ? " следующей" : "") + " папки...");
-    getInfo(folder=startFolders[curFolder]); normTime(sum); header = "Оглавление " + fso.GetFileName(folder);
+    getInfo(folder=startFolders[curFolder]); normTime(sum); header = "Оглавление ";
+    if(/^by[a-zA-Z]+$/.test(fso.GetFileName(folder))){
+        header += fso.GetFileName(fso.GetParentFolderName(fso.GetFolder(folder))) + " [" + fso.GetFileName(folder) + "]";
+    } else header += fso.GetFileName(folder);
     WSH.echo("Обработана папка: " + fso.GetAbsolutePathName(folder) + "...");
     with(fso.CreateTextFile(fso.BuildPath(folder, header + ".txt"), true, true)){
             Write((isArial ? ">>>Arial 16<<<\r\n" : "") + header + " (" + sum.join(":")+ "):" + (s.substr(2,1) == "-" ? "" : "\r\n" + dd) + s);
